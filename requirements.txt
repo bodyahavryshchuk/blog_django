@@ -10,4 +10,3 @@ Pillow==7.0.0
 pipenv==2020.6.2
 psycopg2==2.8.5
 s3transfer==0.3.3
-whitenoise==5.0.1
