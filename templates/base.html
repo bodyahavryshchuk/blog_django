@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'message_list' %}">Список сообщений<span
+                        class="sr-only">(current)</span></a>
+            </li>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}" tabindex="-1" aria-disabled="true">Выйти</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}" tabindex="-1" aria-disabled="true">Ввойти</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+{%block content%}
+{%endblock%}
+
+{% if messages.has_other_pages %}
+<nav aria-label="...">
+    <ul class="pagination pagination-lg">
+        {% if messages.has_previous %}
+        <li class="page-item"><a href="?page={{ messages.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+        <li class="page-item"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in messages.paginator.page_range %}
+        {% if messages.number == i %}
+        <li class="page-item"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+        <li class="page-item"><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        {% if messages.has_next %}
+        <li class="page-item"><a href="?page={{ messages.next_page_number }}">&raquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+</body>
+</html>
